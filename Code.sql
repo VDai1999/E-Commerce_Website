@@ -1,12 +1,12 @@
 ﻿/*=========================================================================================================================
 
-	NAME:						Leasing Database (LeasingDB)
+	NAME:				Leasing Database (LeasingDB)
 
 	Database Description:		A database for an e-commerce website where lessors can lease out items to earn money, and lessees can pay 
-								a fee to borrow them
+					a fee to borrow them
 
-	Author:						Manh Nguyen
-								Dai Dong
+	Author:				Manh Nguyen
+					Dai Dong
 
 
 =========================================================================================================================*/
@@ -35,14 +35,14 @@ GO
 
 -- Users Table
 CREATE TABLE Users(
-	userId					INT					PRIMARY KEY												IDENTITY			NOT NULL,
-	userName				VARCHAR(100)		NOT NULL,
-	fName					VARCHAR(100)		NOT NULL,
-	lName					VARCHAR(100)		NOT NULL,
-	email					VARCHAR(200)		NOT NULL,
-	password				VARBINARY(64)		NOT NULL,
-	dateOfBirth				DATE				NOT NULL,
-	phone					VARCHAR(10)			NOT NULL,
+	userId					INT					PRIMARY KEY,												IDENTITY			NOT NULL,
+	userName				VARCHAR(100)				NOT NULL,
+	fName					VARCHAR(100)				NOT NULL,
+	lName					VARCHAR(100)				NOT NULL,
+	email					VARCHAR(200)				NOT NULL,
+	password				VARBINARY(64)				NOT NULL,
+	dateOfBirth				DATE					NOT NULL,
+	phone					VARCHAR(10)				NOT NULL,
 	isDeleted				BIT					NOT NULl												DEFAULT(0)
 )
 GO
@@ -52,7 +52,7 @@ GO
 -- PriceTye Table
 CREATE TABLE PriceTypes(
 	priceTypeId				INT					PRIMARY KEY												IDENTITY	NOT NULL,
-	priceTypeDescription	VARCHAR(50)
+	priceTypeDescription			VARCHAR(50)
 )
 GO
 
@@ -60,16 +60,16 @@ GO
 
 -- LeasePosts Table
 CREATE TABLE LeasePosts(
-	leasePostId				INT					PRIMARY KEY												IDENTITY			NOT NULL,
+	leasePostId				INT					PRIMARY KEY,												IDENTITY			NOT NULL,
 	userId					INT					FOREIGN KEY REFERENCES Users(userId),
 	priceTypeId				INT					FOREIGN KEY REFERENCES PriceTypes(priceTypeId),
-	description				VARCHAR(MAX)		NULL,
-	condition				VARCHAR(50)			NOT NULL,
+	description				VARCHAR(MAX)				NULL,
+	condition				VARCHAR(50)				NOT NULL,
 	itemAmount				INT					NOT NULL												DEFAULT(1),
-	leaseStartDate			DATETIME			NOT NULL												DEFAULT(GETDATE()),
-	leaseEndDate			DATETIME			NOT NULL,
-	price					FLOAT				NOT NULl,
-	dateCreated				DATETIME			NOT NULL												DEFAULT(GETDATE()),
+	leaseStartDate				DATETIME				NOT NULL												DEFAULT(GETDATE()),
+	leaseEndDate				DATETIME				NOT NULL,
+	price					FLOAT					NOT NULl,
+	dateCreated				DATETIME				NOT NULL												DEFAULT(GETDATE()),
 	isDeleted				BIT					NOT NULL												DEFAULT(0)
 )
 GO
@@ -78,9 +78,9 @@ GO
 
 -- ItemsURL Table
 CREATE TABLE ItemURLs(
-	urlId					INT					PRIMARY KEY												IDENTITY			NOT NULL,
+	urlId					INT					PRIMARY KEY,												IDENTITY			NOT NULL,
 	leasePostId				INT					FOREIGN KEY REFERENCES LeasePosts(leasePostId),
-	pictureURL				VARCHAR(1000)		NOT NULL
+	pictureURL				VARCHAR(1000)				NOT NULL
 )
 GO
 
@@ -88,10 +88,10 @@ GO
 
 -- Tags Table
 CREATE TABLE Tags (
-	tagId					INT					PRIMARY KEY												IDENTITY			NOT NULL,
+	tagId					INT					PRIMARY KEY,												IDENTITY			NOT NULL,
 	leasePostId				INT					FOREIGN KEY REFERENCES LeasePosts(leasePostId),
-	tagName					VARCHAR(1000)		NOT NULL,
-	tagDescription			VARCHAR(MAX)		NULL
+	tagName					VARCHAR(1000)				NOT NULL,
+	tagDescription				VARCHAR(MAX)				NULL
 )
 GO
 
@@ -108,47 +108,47 @@ GO
 
 -- Address Table
 CREATE TABLE [Address](
-	addressId				INT					PRIMARY KEY												IDENTITY			NOT NULL,
+	addressId				INT					PRIMARY KEY,												IDENTITY			NOT NULL,
 	userId					INT					FOREIGN KEY (userId) REFERENCES Users(userId),
-	address1				VARCHAR(MAX)		NOT NULL,
+	address1				VARCHAR(MAX)				NOT NULL,
 	address2				VARCHAR(MAX),
-	city					VARCHAR(1000)		NOT NULL,
-	[state]					VARCHAR(1000)		NOT NULL,
+	city					VARCHAR(1000)				NOT NULL,
+	[state]					VARCHAR(1000)				NOT NULL,
 	postalCode				INT					NOT NULL,
-	country					VARCHAR(100)		NOT NULL,
+	country					VARCHAR(100)				NOT NULL,
 	isDeleted				BIT					NOT NULL												DEFAULT(0)
 )
 GO
 
 -- LeasePostReply Table
 CREATE TABLE LeasePostReply (
-	leasePostReplyId		INT					PRIMARY KEY												IDENTITY			NOT NULL,
+	leasePostReplyId			INT					PRIMARY KEY,												IDENTITY			NOT NULL,
 	userId					INT					FOREIGN KEY (userId) REFERENCES Users(userId),			
 	addressId				INT					FOREIGN KEY (addressId) REFERENCES [Address](addressId),
 	leasePostId				INT					FOREIGN KEY (leasePostId) REFERENCES LeasePosts(leasePostId),
 	[message]				TEXT,
-	borrowStartDate			DATE				NOT NULL,
-	borrowEndDate			DATE				NOT NULL,
+	borrowStartDate				DATE					NOT NULL,
+	borrowEndDate				DATE					NOT NULL,
 	amount					INT					NOT NULL,
-	[status]				VARCHAR(1)			NOT NULL,
+	[status]				VARCHAR(1)				NOT NULL,
 	isDeleted				BIT					NOT NULL		DEFAULT(0)
 )
 GO
 
 -- Errors Table
 CREATE TABLE [dbo].[errors](
-	[errorId] 				INT					PRIMARY KEY												IDENTITY(1,1)		NOT NULL												 ,
-	[ERROR_NUMBER] 			INT					NOT NULL,
-	[ERROR_SEVERITY] 		INT					NOT NULL,
-	[ERROR_STATE] 			INT					NOT NULL,
-	[ERROR_PROCEDURE] 		VARCHAR(50)			NOT NULL,
-	[ERROR_LINE] 			INT					NOT NULL,
-	[ERROR_MESSAGE] 		VARCHAR(500)		NOT NULL,
-	[errorDate] 			DATETIME			NOT NULL												DEFAULT(getdate()),
-	[resolvedOn]			DATETIME			NULL,
-	[comments]				VARCHAR(8000)		NOT NULL												DEFAULT(''),
-	[userName]				VARCHAR(100)		NOT NULL												DEFAULT(''),
-	[params]				VARCHAR(MAX)		NOT NULL												DEFAULT('')
+	[errorId] 				INT					PRIMARY KEY,												IDENTITY(1,1)		NOT NULL												 ,
+	[ERROR_NUMBER] 				INT					NOT NULL,
+	[ERROR_SEVERITY] 			INT					NOT NULL,
+	[ERROR_STATE] 				INT					NOT NULL,
+	[ERROR_PROCEDURE] 			VARCHAR(50)				NOT NULL,
+	[ERROR_LINE] 				INT					NOT NULL,
+	[ERROR_MESSAGE] 			VARCHAR(500)				NOT NULL,
+	[errorDate] 				DATETIME				NOT NULL												DEFAULT(getdate()),
+	[resolvedOn]				DATETIME				NULL,
+	[comments]				VARCHAR(8000)				NOT NULL,												DEFAULT(''),
+	[userName]				VARCHAR(100)				NOT NULL,												DEFAULT(''),
+	[params]				VARCHAR(MAX)				NOT NULL												DEFAULT('')
 )
 GO
 
@@ -1098,7 +1098,7 @@ VALUES
 INSERT INTO UserTags 
 	(tagId, userId) 
 VALUES 
-(	     1,      1),
+(	     	 1,      	 1),
 (		 2,		 2),
 (		 3,		 3),
 (		 4,		 4),
@@ -1107,23 +1107,23 @@ VALUES
 (		 7,		 7),
 (		 8,		 8),
 (		 9,		 9),
-(		 10,	10);
+(		 10,	 	10);
 
 
 -- Address Table
 INSERT INTO Address 
 	(userId,				   address1, address2,			  city, [state], postalCode, country, isDeleted)
 VALUES 
-(		  1,	  '600 S Locust Street',	   '',	      'Oxford',    'OH',	  45056,   'USA',		  0),
-(		  2,	  '600 N Poplar Street',	   '',		  'Oxford',	   'OH',	  45056,   'USA',         0),
-(		  3,		 '600 Maple Street',	   '',		  'Oxford',	   'OH',	  45056,   'USA',         0),
-(		  4, '600 Amphitheatre Parkway',	   '', 'Mountain View',    'CA',	  85056,   'USA',         0),
-(		  5,		   '600 Oak Street',	   '', 'Mountain View',    'CA',	  85056,   'USA',         0),
-(		  6,		'600 Midway Street',	   '', 'San Francisco',    'CA',	  25056,   'USA',         0),
-(		  7,	   '600 Concord Street',	   '', 'San Francisco',    'CA',	  25056,   'USA',         0),
-(		  8,		'600 Willow Street',	   '',	   'Ann Arbor',    'MI',	  75056,   'USA',         0),
-(		  9,	  '600 Fairfield Drive',	   '',	   'Ann Arbor',    'MI',	  75056,   'USA',         0),
-(		 10,	   '600 Tollgate Drive',	   '',	   'Ann Arbor',    'MI',	  75056,   'USA',         0);
+(		  1,	  '600 S Locust Street',	   '',	      	'Oxford',    'OH',	  45056,   'USA',		  0),
+(		  2,	  '600 N Poplar Street',	   '',		'Oxford',	'OH',	  45056,   'USA',         0),
+(		  3,		 '600 Maple Street',	   '',		'Oxford',	   'OH',	  45056,   'USA',         0),
+(		  4, '600 Amphitheatre Parkway',	   '', 	 'Mountain View',    'CA',	  85056,   'USA',         0),
+(		  5,		   '600 Oak Street',	   '',   'Mountain View',    'CA',	  85056,   'USA',         0),
+(		  6,		'600 Midway Street',	   '', 	 'San Francisco',    'CA',	  25056,   'USA',         0),
+(		  7,	   '600 Concord Street',	   '',   'San Francisco',    'CA',	  25056,   'USA',         0),
+(		  8,		'600 Willow Street',	   '',	     'Ann Arbor',    'MI',	  75056,   'USA',         0),
+(		  9,	  '600 Fairfield Drive',	   '',	     'Ann Arbor',    'MI',	  75056,   'USA',         0),
+(		 10,	   '600 Tollgate Drive',	   '',	     'Ann Arbor',    'MI',	  75056,   'USA',         0);
 
 
 -- LeasePostReply Table
