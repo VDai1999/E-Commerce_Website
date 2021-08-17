@@ -6,6 +6,11 @@ where lessors can lease out items to earn money, and lessees
 can pay a fee to borrow them. This database will utilize 
 the economy of sharing model, and will mostly be peer to 
 peer. 
+
+## Author
+- Manh Nguyen
+- Dai Dong
+
 ## Software
 
 ### Visual Studio
